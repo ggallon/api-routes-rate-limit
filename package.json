@@ -1,5 +1,4 @@
 {
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -15,8 +14,8 @@
   },
   "devDependencies": {
     "@types/node": "20.12.12",
-    "@types/react": "npm:types-react@19.0.0-beta.1",
-    "@types/react-dom": "npm:types-react-dom@beta",
+    "@types/react": "18.2.74",
+    "@types/react-dom": "18.2.23",
     "typescript": "5.4.5"
   }
 }
