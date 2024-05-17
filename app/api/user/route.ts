@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
-import { rateLimit } from "../../lib/rate-limit";
-import { getIP } from "../../lib/get-ip";
+import { rateLimit } from "@/lib/rate-limit";
+import { getIP } from "@/lib/get-ip";
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
