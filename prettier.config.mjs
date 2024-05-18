@@ -6,6 +6,9 @@ const config = {
   trailingComma: "all",
   bracketSpacing: true,
   endOfLine: "lf",
+  tailwindConfig: "./tailwind.config.ts",
+  tailwindFunctions: ["cn"],
+  plugins: ["prettier-plugin-tailwindcss"],
 };
 
 export default config;
