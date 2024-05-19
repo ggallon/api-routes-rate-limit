@@ -37,7 +37,7 @@ export default function RateLimitOutput(
         </a>
       </div>
       {response && (
-        <code className="mt-4 rounded-lg bg-foreground p-4 text-background">
+        <code className="mt-4 max-w-xl rounded-lg bg-foreground p-4 text-background">
           <div>
             <b>Status Code:</b> {response.status}
           </div>

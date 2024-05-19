@@ -1,40 +1,50 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
 import { rateLimit } from "@/lib/rate-limit";
 import { getIP } from "@/lib/get-ip";
+import { getVercelHeaders } from "@/lib/get-vercel-headers";
+import { ApiResponse } from "@/lib/formatResponse";
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
   uniqueTokenPerInterval: 500, // Max 500 users per second
 });
 
+const start = Date.now();
+
 export async function GET(request: NextRequest) {
-  const { success, limit, remaining } = await limiter.check(
+  const obs = { start, time: Date.now() };
+
+  const { success, ...rateLimit } = await limiter.check(
     10, // 10 requests per minute
     getIP(request),
   );
 
+  const headers = getVercelHeaders(request);
+
   if (!success) {
-    return NextResponse.json(
-      { error: "You have reached your request limit." },
+    return ApiResponse.fullJson(
       {
-        status: 429,
-        headers: {
-          "X-RateLimit-Limit": limit.toString(),
-          "X-RateLimit-Remaining": remaining.toString(),
-        },
+        error: "You have reached your request limit.",
+        headers,
       },
+      {
+        obs,
+        rateLimit,
+      },
+      { status: 429 },
     );
   }
 
-  return NextResponse.json(
-    { id: uuidv4() },
+  return ApiResponse.fullJson(
     {
-      headers: {
-        "X-RateLimit-Limit": limit.toString(),
-        "X-RateLimit-Remaining": remaining.toString(),
-      },
+      id: uuidv4(),
+      headers,
+    },
+    {
+      obs,
+      rateLimit,
     },
   );
 }

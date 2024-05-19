@@ -78,9 +78,9 @@ export function ThemeToggle(
           isHovering && !isHoveringOverride
             ? "bg-gray-200 dark:bg-[#313131]"
             : ""
-        } theme-system:!bg-inherit rounded-full bg-gray-200 p-2
-                  transition-[background-color]
+        } rounded-full bg-gray-200 p-2 transition-[background-color]
                   active:bg-gray-300
+                  theme-system:!bg-inherit
                   dark:bg-[#313131]
                   dark:active:bg-[#242424]
                   dark:[&_.moon-icon]:hidden
