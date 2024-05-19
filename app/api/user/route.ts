@@ -14,7 +14,7 @@ const limiter = rateLimit({
 const start = Date.now();
 
 export async function GET(request: NextRequest) {
-  const obs = { start, time: Date.now() };
+  const time = Date.now();
 
   const { success, ...rateLimit } = await limiter.check(
     10, // 10 requests per minute
@@ -29,22 +29,13 @@ export async function GET(request: NextRequest) {
         error: "You have reached your request limit.",
         headers,
       },
-      {
-        obs,
-        rateLimit,
-      },
+      { obs: { start, time }, rateLimit },
       { status: 429 },
     );
   }
 
   return ApiResponse.fullJson(
-    {
-      id: uuidv4(),
-      headers,
-    },
-    {
-      obs,
-      rateLimit,
-    },
+    { id: uuidv4(), headers },
+    { obs: { start, time }, rateLimit },
   );
 }
