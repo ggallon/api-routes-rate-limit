@@ -1,8 +1,12 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: ["./app/**/*.{ts,tsx,mdx}"],
   darkMode: "class",
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       colors: {
@@ -16,6 +20,13 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // @ts-expect-error -- check why ?
+    plugin(function ({ addVariant }) {
+      // this class is applied to `html` by `app/theme-efect.ts`, similar
+      // to how `dark:` gets enabled
+      addVariant("theme-system", ".theme-system &");
+    }),
+  ],
 };
 export default config;
