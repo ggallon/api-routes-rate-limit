@@ -30,8 +30,20 @@ const VERCEL_HEADERS = new Set([
   "x-vercel-cache", // reponse
   "x-vercel-execution-region", // reponse
   "x-vercel-sc-basepath",
-  "x-vercel-sc-headers", //'{"Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXBsb3ltZW50SWQiOiJkcGxfQ25DNmN6VDdRU1hDdHJUQWJxR0pnYjl5NWJFUiIsInVubGltaXRlZCI6ZmFsc2UsInBsYW4iOiJob2JieSIsImRvbWFpbiI6ImFwaS1yb3V0ZXMtcmF0ZS1saW1pdC10d28udmVyY2VsLmFwcCIsImJsb2NrIjpmYWxzZSwiaWF0IjoxNzE2MTYwMTI5LCJwcm9qZWN0SWQiOiJwcmpfTzRjWFBJWG1neGRUbmZUWDNMbm12NmZpdGRmSCIsImV4cCI6MTcxNjE2MTA0OSwib3duZXJJZCI6InRlYW1fWE0wdGdJd0k5NUt6QVVTT000TDlDVXRxIiwicmVxdWVzdElkIjoibmZ2ODgtMTcxNjE2MDEyOTA3My02YzM3MWQ5MDQ4Y2UiLCJlbnYiOiJwcm9kdWN0aW9uIn0.p8ttKnPSnfdkejVvhdXGcEmLJWx96GJnpl3f5PzSSHQ"}'
+  "x-vercel-sc-headers", //'{"Authorization":"Bearer xxxx"}'
   "x-vercel-sc-host", // iad1.suspense-cache.vercel-infra.com
+]);
+
+const VERCEL_HEADERS_VISTOR = new Set([
+  "x-real-ip",
+  "x-vercel-ip-as-number",
+  "x-vercel-ip-continent",
+  "x-vercel-ip-country",
+  "x-vercel-ip-country-region",
+  "x-vercel-ip-city",
+  "x-vercel-ip-latitude",
+  "x-vercel-ip-longitude",
+  "x-vercel-ip-timezone",
 ]);
 
 const Continent = new Map([
@@ -45,10 +57,14 @@ const Continent = new Map([
 ]);
 
 export function getVercelHeaders(request: Request | NextRequest) {
+  let visitorLocation: [string, string][] = [];
   const rawHeaders = request.headers.entries();
   const headers = [...rawHeaders].filter((header) => {
-    console.log(header);
+    if (VERCEL_HEADERS_VISTOR.has(header[0])) {
+      visitorLocation.push(header);
+    }
+
     return VERCEL_HEADERS.has(header[0]);
   });
-  return headers;
+  return [headers, visitorLocation];
 }

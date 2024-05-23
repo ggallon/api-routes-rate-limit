@@ -1,22 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
+const dataFormatter = (number: number) =>
+  `${Intl.NumberFormat("us").format(number).toString()}ms`;
 
 export default function RateLimitOutput(
   { debug }: { debug?: boolean } = { debug: false },
 ) {
-  const [response, setResponse] = useState<Record<string, string> | null>(null);
+  const [response, setResponse] = useState<Record<
+    string,
+    string | number
+  > | null>(null);
 
-  const makeRequest = async () => {
+  const makeRequest = useCallback(async () => {
+    const start = Date.now();
     const res = await fetch("/api/user");
-
+    const status = res.status.toString();
+    const body = await res.json();
+    const end = Date.now();
     setResponse({
-      status: res.status.toString(),
-      body: await res.json(),
+      status,
+      body,
+      visitorLocation: body.visitorLocation,
       limit: res.headers.get("X-RateLimit-Limit")?.toString() ?? "0",
       remaining: res.headers.get("X-RateLimit-Remaining")?.toString() ?? "0",
+      elapsed: end - start,
     });
-  };
+  }, []);
 
   return (
     <>
@@ -39,10 +50,17 @@ export default function RateLimitOutput(
       {response && (
         <code className="mt-4 max-w-xl rounded-lg bg-foreground p-4 text-background">
           <div>
+            <b>Elapsed:</b> {dataFormatter(response.elapsed as number)}
+          </div>
+          <div>
+            <b>Elapsed:</b> {response.invocationIsCold}
+          </div>
+          <div>
             <b>Status Code:</b> {response.status}
           </div>
           <div>
-            <b>Body: </b> {JSON.stringify(response.body, null, 2)}
+            <b>Location: </b>{" "}
+            {JSON.stringify(response.visitorLocation, null, 2)}
           </div>
           <div>
             <b>Request Limit:</b> {response.limit}

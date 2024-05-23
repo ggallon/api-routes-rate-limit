@@ -11,22 +11,26 @@ const limiter = rateLimit({
   uniqueTokenPerInterval: 500, // Max 500 users per second
 });
 
+let coldStart = true;
 const start = Date.now();
 
 export async function GET(request: NextRequest) {
   const time = Date.now();
+  const isCold = coldStart;
+  coldStart = false;
 
   const { success, ...rateLimit } = await limiter.check(
     10, // 10 requests per minute
     getIP(request),
   );
 
-  const headers = getVercelHeaders(request);
+  const [headers, visitorLocation] = getVercelHeaders(request);
 
   if (!success) {
     return ApiResponse.fullJson(
       {
         error: "You have reached your request limit.",
+        invocationIsCold: isCold,
         headers,
       },
       { obs: { start, time }, rateLimit },
@@ -35,7 +39,7 @@ export async function GET(request: NextRequest) {
   }
 
   return ApiResponse.fullJson(
-    { id: uuidv4(), headers },
+    { id: uuidv4(), invocationIsCold: isCold, visitorLocation, headers },
     { obs: { start, time }, rateLimit },
   );
 }
