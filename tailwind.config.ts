@@ -3,7 +3,7 @@ import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: ["./app/**/*.{ts,tsx,mdx}"],
-  darkMode: "class",
+  darkMode: "selector",
   future: {
     hoverOnlyWhenSupported: true,
   },
