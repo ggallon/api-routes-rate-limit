@@ -57,14 +57,16 @@ const Continent = new Map([
 ]);
 
 export function getVercelHeaders(request: Request | NextRequest) {
-  let visitorLocation: [string, string][] = [];
+  const headers: { [K: string]: string } = {};
+  const visitorLocation: { [K: string]: string } = {};
   const rawHeaders = request.headers.entries();
-  const headers = [...rawHeaders].filter((header) => {
-    if (VERCEL_HEADERS_VISTOR.has(header[0])) {
-      visitorLocation.push(header);
+  for (const [key, value] of rawHeaders) {
+    if (VERCEL_HEADERS_VISTOR.has(key)) {
+      visitorLocation[key] = value ?? "";
     }
-
-    return VERCEL_HEADERS.has(header[0]);
-  });
+    if (VERCEL_HEADERS.has(key)) {
+      headers[key] = value ?? "";
+    }
+  }
   return [headers, visitorLocation];
 }

@@ -1,9 +1,11 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useTimer } from "@/lib/useTimer";
+import { useCallback, useEffect, useState } from "react";
+import { TimerRenderer } from "./render-time";
 
 const dataFormatter = (number: number) =>
-  `${Intl.NumberFormat("us").format(number).toString()}ms`;
+  Intl.NumberFormat("us").format(number).toString();
 
 export default function RateLimitOutput(
   { debug }: { debug?: boolean } = { debug: false },
@@ -12,9 +14,11 @@ export default function RateLimitOutput(
     string,
     string | number
   > | null>(null);
+  const timer = useTimer();
 
   const makeRequest = useCallback(async () => {
-    const start = Date.now();
+    const startFetch = Date.now();
+    timer.start(startFetch);
     const res = await fetch("/api/user");
     const status = res.status.toString();
     const body = await res.json();
@@ -25,8 +29,9 @@ export default function RateLimitOutput(
       visitorLocation: body.visitorLocation,
       limit: res.headers.get("X-RateLimit-Limit")?.toString() ?? "0",
       remaining: res.headers.get("X-RateLimit-Remaining")?.toString() ?? "0",
-      elapsed: end - start,
+      elapsed: end - startFetch,
     });
+    timer.stop();
   }, []);
 
   return (
@@ -47,36 +52,56 @@ export default function RateLimitOutput(
           Read our docs
         </a>
       </div>
+      <div>
+        <b>Elapsed: </b>
+        <TimerRenderer
+          timer={timer}
+          render={(time) => (
+            <span>
+              {dataFormatter(
+                timer.isStarted()
+                  ? time.getRunningTime()
+                  : (response?.elapsed as number) ?? 0,
+              )}
+            </span>
+          )}
+          renderRate={0}
+        />{" "}
+        ms
+      </div>
+
       {response && (
-        <code className="mt-4 max-w-xl rounded-lg bg-foreground p-4 text-background">
-          <div>
-            <b>Elapsed:</b> {dataFormatter(response.elapsed as number)}
-          </div>
-          <div>
-            <b>Elapsed:</b> {response.invocationIsCold}
-          </div>
-          <div>
-            <b>Status Code:</b> {response.status}
-          </div>
-          <div>
-            <b>Location: </b>{" "}
-            {JSON.stringify(response.visitorLocation, null, 2)}
-          </div>
-          <div>
-            <b>Request Limit:</b> {response.limit}
-          </div>
-          <div>
-            <b>Remaining Requests:</b> {response.remaining}
-          </div>
+        <>
+          <code className="max-w-xl rounded-lg bg-foreground p-4 text-background">
+            <div>
+              <b>Cold Start:</b> {response.invocationIsCold ? "Yes" : "Not"}
+            </div>
+            <div>
+              <b>Status Code:</b> {response.status}
+            </div>
+            <div>
+              <b>Request Limit:</b> {response.limit}
+            </div>
+            <div>
+              <b>Remaining Requests:</b> {response.remaining}
+            </div>
+            <div>
+              <b>Location: </b>{" "}
+              {JSON.stringify(response.visitorLocation, null, 2)}
+            </div>
+            <div>
+              <b>Body: </b> {JSON.stringify(response.body, null, 2)}
+            </div>
+          </code>
           {debug && (
-            <>
+            <code className="max-w-xl rounded-lg bg-foreground p-4 text-background">
               <div>
                 <b>debug:</b>
               </div>
               <pre>{JSON.stringify(response, null, 2)}</pre>
-            </>
+            </code>
           )}
-        </code>
+        </>
       )}
     </>
   );
