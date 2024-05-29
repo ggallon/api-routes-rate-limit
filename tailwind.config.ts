@@ -21,7 +21,6 @@ const config: Config = {
     },
   },
   plugins: [
-    // @ts-expect-error -- check why ?
     plugin(function ({ addVariant }) {
       // this class is applied to `html` by `app/theme-efect.ts`, similar
       // to how `dark:` gets enabled
