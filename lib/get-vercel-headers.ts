@@ -14,7 +14,7 @@ const VERCEL_HEADERS = new Set([
   "x-real-ip",
   "x-vercel-deployment-url",
   "x-vercel-forwarded-for",
-  "x-vercel-id",
+  "x-vercel-id", // both
   "x-vercel-ip-as-number",
   "x-vercel-ip-continent",
   "x-vercel-ip-country",
