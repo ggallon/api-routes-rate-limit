@@ -7,10 +7,8 @@ export function ThemeToggle(
   { themeName }: { themeName?: boolean } = { themeName: false },
 ) {
   // a `null` preference implies auto
-  const [preference, setPreference] = useState<undefined | null | string>(
-    undefined,
-  );
-  const [currentTheme, setCurrentTheme] = useState<null | string>(null);
+  const [preference, setPreference] = useState<string | null>(null);
+  const [currentTheme, setCurrentTheme] = useState<string | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [isHoveringOverride, setIsHoveringOverride] = useState(false);
 
@@ -50,16 +48,7 @@ export function ThemeToggle(
   return (
     <>
       {themeName && isHovering && (
-        <span
-          className={`
-            /*
-            mobile
-            */
-            mr-[-5px] hidden text-[9px]
-            text-gray-400
-            md:inline
-          `}
-        >
+        <span className="mr-[-5px] hidden text-[9px] text-gray-400 md:inline">
           {preference === null
             ? "System"
             : preference === "dark"
@@ -78,14 +67,7 @@ export function ThemeToggle(
           isHovering && !isHoveringOverride
             ? "bg-gray-200 dark:bg-[#313131]"
             : ""
-        } rounded-full bg-gray-200 p-2 transition-[background-color]
-                  active:bg-gray-300
-                  theme-system:!bg-inherit
-                  dark:bg-[#313131]
-                  dark:active:bg-[#242424]
-                  dark:[&_.moon-icon]:hidden
-                  [&_.sun-icon]:hidden
-                dark:[&_.sun-icon]:inline`}
+        } rounded-full bg-gray-200 p-2 transition-[background-color] active:bg-gray-300 theme-system:!bg-inherit dark:bg-[#313131] dark:active:bg-[#242424] dark:[&_.moon-icon]:hidden [&_.sun-icon]:hidden dark:[&_.sun-icon]:inline`}
         onClick={(ev) => {
           ev.preventDefault();
           // prevent the hover state from rendering
