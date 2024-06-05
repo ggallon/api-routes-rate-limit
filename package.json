@@ -8,18 +8,18 @@
   },
   "dependencies": {
     "lru-cache": "10.2.2",
-    "next": "15.0.0-canary.5",
+    "next": "15.0.0-canary.12",
     "react": "19.0.0-rc-f994737d14-20240522",
     "react-dom": "19.0.0-rc-f994737d14-20240522",
     "uuid": "9.0.1"
   },
   "devDependencies": {
-    "@types/node": "20.12.13",
+    "@types/node": "20.14.1",
     "@types/react": "npm:types-react@19.0.0-rc.0",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0",
     "postcss": "8.4.38",
-    "prettier": "3.2.5",
-    "prettier-plugin-tailwindcss": "0.5.14",
+    "prettier": "3.3.0",
+    "prettier-plugin-tailwindcss": "0.6.1",
     "tailwindcss": "3.4.3",
     "typescript": "5.4.5"
   },
