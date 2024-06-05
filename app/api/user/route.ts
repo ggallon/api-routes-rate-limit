@@ -31,6 +31,7 @@ export async function GET(request: NextRequest) {
       {
         error: "You have reached your request limit.",
         invocationIsCold: isCold,
+        invocationIsColdTime: start === time,
         headers,
       },
       { obs: { start, time }, rateLimit },

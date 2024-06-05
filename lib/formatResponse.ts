@@ -25,7 +25,7 @@ export class ApiResponse extends NextResponse {
     const response: Response = Response.json(
       {
         ...body,
-        ...(obs && {
+        ...(obs?.time && {
           queryDuration: Date.now() - obs.time,
           invocationIsCold: obs.start === obs.time,
         }),
