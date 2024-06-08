@@ -1,10 +1,9 @@
 import { type NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-
-import { rateLimit } from "@/lib/rate-limit";
+import { ApiResponse } from "@/lib/formatResponse";
 import { getIP } from "@/lib/get-ip";
 import { getVercelHeaders } from "@/lib/get-vercel-headers";
-import { ApiResponse } from "@/lib/formatResponse";
+import { rateLimit } from "@/lib/rate-limit";
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
