@@ -67,7 +67,7 @@ export function ThemeToggle(
           isHovering && !isHoveringOverride
             ? "bg-gray-200 dark:bg-[#313131]"
             : ""
-        } rounded-full bg-gray-200 p-2 transition-[background-color] active:bg-gray-300 theme-system:!bg-inherit dark:bg-[#313131] dark:active:bg-[#242424] dark:[&_.moon-icon]:hidden [&_.sun-icon]:hidden dark:[&_.sun-icon]:inline`}
+        } rounded-full p-2 transition-[background-color] active:bg-gray-300 theme-system:!bg-inherit dark:bg-[#313131] dark:active:bg-[#242424] [&_.comp-icon]:hidden theme-system:[&_.comp-icon]:inline theme-system:[&_.moon-icon]:hidden dark:[&_.moon-icon]:hidden [&_.sun-icon]:hidden dark:[&_.sun-icon]:inline`}
         onClick={(ev) => {
           ev.preventDefault();
           // prevent the hover state from rendering
@@ -97,6 +97,9 @@ export function ThemeToggle(
           setIsHoveringOverride(false);
         }}
       >
+        <span className="comp-icon size-4">
+          <ComputerIcon />
+        </span>
         <span className="sun-icon size-4">
           <SunIcon />
         </span>
@@ -105,6 +108,20 @@ export function ThemeToggle(
         </span>
       </button>
     </>
+  );
+}
+
+function ComputerIcon(props: any) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      fillOpacity=".85"
+      {...props}
+    >
+      <path d="M1 3.3C1 1.4 2.5 0 4.3 0h7.5C13.4 0 15 1.5 15 3.3V16H1V3.2Zm3.3-1.8c-1 0-1.8.8-1.8 1.8v11.2h11V3.2c0-1-.8-1.7-1.8-1.7H4.3ZM4 4c0-.6.4-1 1-1h6c.6 0 1 .4 1 1v6H4V4Zm5 9h3v-1.5H9V13Z" />
+    </svg>
   );
 }
 
