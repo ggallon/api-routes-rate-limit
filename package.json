@@ -4,6 +4,7 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write . --ignore-unknown",
+    "ts": "pnpm tsc --noEmit",
     "update-deps": "pnpm update --interactive --latest"
   },
   "dependencies": {
