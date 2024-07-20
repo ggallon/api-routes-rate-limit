@@ -8,20 +8,20 @@
     "update-deps": "pnpm update --interactive --latest"
   },
   "dependencies": {
-    "lru-cache": "10.3.0",
-    "next": "15.0.0-canary.55",
+    "lru-cache": "11.0.0",
+    "next": "15.0.0-canary.74",
     "react": "19.0.0-rc-6230622a1a-20240610",
     "react-dom": "19.0.0-rc-6230622a1a-20240610",
     "uuid": "10.0.0"
   },
   "devDependencies": {
-    "@types/node": "20.14.9",
+    "@types/node": "20.14.11",
     "@types/react": "npm:types-react@19.0.0-rc.0",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0",
     "postcss": "8.4.39",
-    "prettier": "3.3.2",
+    "prettier": "3.3.3",
     "prettier-plugin-tailwindcss": "0.6.5",
-    "tailwindcss": "3.4.4",
+    "tailwindcss": "3.4.6",
     "typescript": "5.5.3"
   },
   "packageManager": "pnpm@9.4.0",
