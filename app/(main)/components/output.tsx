@@ -61,7 +61,7 @@ export default function RateLimitOutput(
               {dataFormatter(
                 timer.isStarted()
                   ? time.getRunningTime()
-                  : (response?.elapsed as number) ?? 0,
+                  : ((response?.elapsed as number) ?? 0),
               )}
             </span>
           )}
