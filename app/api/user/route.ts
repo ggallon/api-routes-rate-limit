@@ -1,7 +1,7 @@
+import { ipAddress } from "@vercel/functions";
 import { type NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { ApiResponse } from "@/lib/formatResponse";
-import { getIP } from "@/lib/get-ip";
 import { getVercelHeaders } from "@/lib/get-vercel-headers";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
   const { success, ...rateLimit } = await limiter.check(
     10, // 10 requests per minute
-    getIP(request),
+    ipAddress(request) ?? "127.0.0.1",
   );
 
   const [headers, visitorLocation] = getVercelHeaders(request);
