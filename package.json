@@ -10,9 +10,9 @@
   "dependencies": {
     "@vercel/functions": "1.4.0",
     "lru-cache": "11.0.0",
-    "next": "15.0.0-canary.110",
-    "react": "19.0.0-rc-187dd6a7-20240806",
-    "react-dom": "19.0.0-rc-187dd6a7-20240806",
+    "next": "15.0.0-canary.120",
+    "react": "19.0.0-rc-49496d49-20240814",
+    "react-dom": "19.0.0-rc-49496d49-20240814",
     "uuid": "10.0.0"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
     "postcss": "8.4.41",
     "prettier": "3.3.3",
     "prettier-plugin-tailwindcss": "0.6.6",
-    "tailwindcss": "3.4.9",
+    "tailwindcss": "3.4.10",
     "typescript": "5.5.4"
   },
   "packageManager": "pnpm@9.6.0",
