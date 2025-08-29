@@ -10,7 +10,7 @@
   "dependencies": {
     "@vercel/functions": "1.4.1",
     "lru-cache": "11.0.1",
-    "next": "15.0.0-canary.177",
+    "next": "15.4.7",
     "react": "19.0.0-rc-2d16326d-20240930",
     "react-dom": "19.0.0-rc-2d16326d-20240930",
     "uuid": "11.0.0-0"
